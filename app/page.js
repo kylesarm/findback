@@ -1,69 +1,85 @@
-import Image from "next/image";
+import Link from "next/link";
+import ItemCard from "@/components/ItemCard";
+import PublicFooter from "@/components/PublicFooter";
+import PublicHeader from "@/components/PublicHeader";
+import { getRecentListings } from "@/lib/data/items";
 
-export default function Home() {
+export default async function Home() {
+  const recentListings = await getRecentListings();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.js
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="min-h-screen bg-[#f8faf9] text-slate-950">
+      <PublicHeader />
+      <main>
+        <section className="relative overflow-hidden border-b border-slate-200">
+          <div className="hero-grid absolute inset-0 opacity-50" />
+          <div className="relative mx-auto grid max-w-7xl gap-12 px-5 py-18 sm:px-8 sm:py-24 lg:grid-cols-[1.08fr_.92fr] lg:items-center lg:py-28">
+            <div>
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-teal-800">
+                <span className="size-1.5 rounded-full bg-teal-600" /> Campus community powered
+              </div>
+              <h1 className="max-w-3xl text-5xl font-bold leading-[1.04] tracking-[-0.045em] sm:text-6xl lg:text-7xl">
+                Lost something? Let&apos;s help it find its way <span className="text-teal-700">back.</span>
+              </h1>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+                Report missing belongings, share what you found, and discover possible matches through one safe, organized campus hub.
+              </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <Link className="rounded-xl bg-teal-700 px-5 py-3.5 text-center text-sm font-bold text-white shadow-lg shadow-teal-900/10 transition hover:-translate-y-0.5 hover:bg-teal-800" href="/report-lost">I lost an item <span aria-hidden="true">→</span></Link>
+                <Link className="rounded-xl border border-slate-300 bg-white px-5 py-3.5 text-center text-sm font-bold text-slate-800 transition hover:border-teal-300 hover:text-teal-800" href="/report-found">I found an item</Link>
+              </div>
+              <p className="mt-5 text-sm text-slate-500">Free to use · Secure claim verification · Built for our campus</p>
+            </div>
+
+            <div className="relative mx-auto w-full max-w-lg">
+              <div className="absolute -inset-4 rotate-2 rounded-[2rem] bg-teal-100" />
+              <div className="relative rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-2xl shadow-slate-900/10 sm:p-7">
+                <div className="mb-6 flex items-center justify-between">
+                  <div><p className="text-xs font-bold uppercase tracking-wider text-teal-700">A safer return</p><p className="mt-1 text-xl font-bold">Simple reports. Clear next steps.</p></div>
+                  <span className="grid size-11 place-items-center rounded-full bg-amber-100 text-xl" aria-hidden="true">✓</span>
+                </div>
+                <div className="rounded-2xl bg-slate-950 p-6 text-white">
+                  <div className="mb-10 flex items-start justify-between"><span className="rounded-lg bg-white/10 px-2.5 py-1 text-xs font-semibold">Community powered</span><span className="text-2xl" aria-hidden="true">⌁</span></div>
+                  <p className="text-2xl font-semibold tracking-tight">Report. Match. Verify.</p>
+                  <p className="mt-2 text-sm text-slate-300">A clear process for returning campus belongings safely.</p>
+                </div>
+                <div className="mt-4 grid grid-cols-3 gap-3 text-center">
+                  {[["01", "Public reports"], ["02", "Private proof"], ["03", "Admin review"]].map(([value, label]) => (
+                    <div className="rounded-xl bg-slate-50 px-2 py-3" key={label}><p className="font-bold text-slate-950">{value}</p><p className="mt-0.5 text-[10px] leading-4 text-slate-500">{label}</p></div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="how-it-works" className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-24">
+          <div className="max-w-2xl"><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">How it works</p><h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Three clear steps to a safer return.</h2><p className="mt-4 leading-7 text-slate-500">FindBack keeps public reporting simple while protecting the private details needed to verify a claim.</p></div>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">{[["01", "Report the item", "Describe what was lost or found, including the location and date."], ["02", "Review possible matches", "Compare reports that share similar details, timing, and campus areas."], ["03", "Verify and return", "Answer private ownership questions before arranging a safe handover."]].map(([number, title, copy]) => <article className="surface-card p-6" key={number}><span className="text-3xl font-bold text-teal-100">{number}</span><h3 className="mt-5 text-lg font-bold">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-500">{copy}</p></article>)}</div>
+        </section>
+
+        <section className="border-y border-slate-200 bg-white">
+          <div className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-24">
+            <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+              <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">Community board</p><h2 className="mt-3 text-3xl font-bold tracking-tight">Recently reported items</h2></div>
+              <Link className="text-sm font-bold text-teal-700" href="/browse">Browse all items →</Link>
+            </div>
+            {recentListings.items.length > 0 ? (
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {recentListings.items.map((item) => <ItemCard key={item.id} item={item} />)}
+              </div>
+            ) : (
+              <div className="empty-state bg-slate-50 py-12">
+                <p className="font-semibold text-slate-700">{recentListings.error || "No recently reported items yet."}</p>
+                <p className="mt-2 text-sm text-slate-500">New lost and found reports will appear here.</p>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-24"><div className="relative overflow-hidden rounded-[2rem] bg-slate-950 px-6 py-12 text-center text-white sm:px-12"><div className="hero-grid absolute inset-0 opacity-20" /><div className="relative"><p className="text-xs font-bold uppercase tracking-[0.18em] text-teal-300">Start today</p><h2 className="mx-auto mt-3 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">One report could be the reason an item gets home.</h2><p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-400">Join the campus community making lost-and-found simpler, safer, and more transparent.</p><Link className="mt-7 inline-block rounded-xl bg-teal-500 px-5 py-3 text-sm font-bold text-slate-950" href="/register">Create your account</Link></div></div></section>
       </main>
+      <PublicFooter />
     </div>
   );
 }
