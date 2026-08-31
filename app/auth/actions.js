@@ -40,6 +40,7 @@ export async function register(previousState, formData) {
   const email = value(formData, "email").toLowerCase();
   const campusId = value(formData, "campusId");
   const password = String(formData.get("password") || "");
+  const confirmPassword = String(formData.get("confirmPassword") || "");
   const acceptedTerms = formData.get("terms") === "on";
 
   if (!firstName || !lastName || !campusId || !emailPattern.test(email)) {
@@ -48,6 +49,10 @@ export async function register(previousState, formData) {
 
   if (password.length < 8) {
     return { error: "Your password must contain at least 8 characters." };
+  }
+
+  if (password !== confirmPassword) {
+    return { error: "Passwords do not match." };
   }
 
   if (!acceptedTerms) {
