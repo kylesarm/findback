@@ -7,8 +7,9 @@ import Icon from "@/components/Icon";
 import PageHeader from "@/components/PageHeader";
 import { getCurrentProfile, getCurrentUserRole, getUserDisplay, requireUser } from "@/lib/auth";
 import { getItemDetail } from "@/lib/data/item-details";
+import { getNotificationSummary } from "@/lib/data/notifications";
 
-export const metadata = { title: "Claim found item" };
+export const metadata = { title: "Claim Verification" };
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -37,10 +38,11 @@ export default async function DirectClaimPage({ params }) {
   if (!UUID_PATTERN.test(id)) notFound();
 
   const user = await requireUser();
-  const [{ item, error }, profile, role] = await Promise.all([
+  const [{ item, error }, profile, role, notificationSummary] = await Promise.all([
     getItemDetail("found", id),
     getCurrentProfile(),
     getCurrentUserRole(),
+    getNotificationSummary(),
   ]);
 
   if (!item && !error) notFound();
@@ -63,7 +65,7 @@ export default async function DirectClaimPage({ params }) {
     );
   } else if (item.isOwnReport) {
     content = (
-      <StateCard title="You cannot claim your own found report" description="FindBack prevents finders from submitting ownership claims for items they reported.">
+      <StateCard title="You cannot claim your own found report" description="FindMatch prevents finders from submitting ownership claims for items they reported.">
         <Link className="btn-secondary" href={itemHref}>Back to item</Link>
       </StateCard>
     );
@@ -76,7 +78,7 @@ export default async function DirectClaimPage({ params }) {
   } else {
     content = (
       <>
-        <PageHeader eyebrow="Claim verification" title="Submit an ownership claim" description="Provide information that is not visible in the public report. FindBack will keep your proof inside the existing claim review workflow." />
+        <PageHeader eyebrow="Claim Verification" title="Submit an ownership claim" description="Provide private ownership information for Claim Verification. These details are separate from the Similarity Score." />
         <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
           <aside className="space-y-4 xl:sticky xl:top-24 xl:self-start">
             <section className="surface-card overflow-hidden">
@@ -106,5 +108,5 @@ export default async function DirectClaimPage({ params }) {
     );
   }
 
-  return <AppShell user={getUserDisplay(user, profile)} role={role}>{content}</AppShell>;
+  return <AppShell user={getUserDisplay(user, profile)} role={role} unreadNotificationCount={notificationSummary.unreadCount}>{content}</AppShell>;
 }

@@ -5,7 +5,7 @@ import ClaimStatusBadge, { getClaimStatusMeta } from "@/components/ClaimStatusBa
 import PageHeader from "@/components/PageHeader";
 import { getClaimsWorkspace } from "@/lib/data/claims";
 
-export const metadata = { title: "Claims" };
+export const metadata = { title: "Claim Verification" };
 
 function formatDate(value) {
   if (!value) return "Not yet reviewed";
@@ -31,7 +31,7 @@ export default async function ClaimsPage() {
 
   return (
     <>
-      <PageHeader eyebrow="Claim center" title="Claims" description="Track private ownership verification for claims you submitted or claims related to items you found." />
+      <PageHeader eyebrow="Claim Verification" title="Claims" description="Track Claim Verification for claims you submitted or claims related to items you found." />
 
       <div className="mb-6 flex gap-2 overflow-x-auto pb-1">
         <span className="shrink-0 rounded-full bg-slate-950 px-4 py-2 text-xs font-bold text-white">All claims · {claims.length}</span>
@@ -49,7 +49,7 @@ export default async function ClaimsPage() {
           <span className="mx-auto grid size-12 place-items-center rounded-xl bg-teal-50 text-teal-700 ring-1 ring-inset ring-teal-100"><Icon name="claims" className="size-5" /></span>
           <h2 className="mt-5 text-xl font-bold text-slate-900">No claims yet</h2>
           <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-slate-500">Claims you submit—and claims other users submit for your found items—will appear here.</p>
-          <Link className="mt-6 inline-block rounded-xl bg-teal-700 px-5 py-3 text-sm font-bold text-white" href="/matches">Review possible matches</Link>
+          <Link className="mt-6 inline-block rounded-xl bg-teal-700 px-5 py-3 text-sm font-bold text-white" href="/matches">Review Possible Matches</Link>
         </section>
       ) : (
         <section className="space-y-4">

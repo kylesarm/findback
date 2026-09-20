@@ -1,4 +1,4 @@
--- FindBack Stage 5: claims and claim-verification workflow
+-- FindMatch Stage 5: claims and claim-verification workflow
 -- Review this entire migration, then run it in the Supabase SQL Editor.
 
 begin;

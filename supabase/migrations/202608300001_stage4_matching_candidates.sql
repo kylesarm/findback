@@ -1,4 +1,4 @@
--- FindBack Stage 4: safe inputs for the explainable matching system
+-- FindMatch Stage 4: safe inputs for the explainable matching system
 -- Run this migration in the Supabase SQL Editor before using Possible Matches.
 
 begin;

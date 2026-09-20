@@ -6,6 +6,7 @@ import PageHeader from "@/components/PageHeader";
 import ReportEditForm from "@/components/ReportEditForm";
 import { getCurrentProfile, getCurrentUserRole, getUserDisplay, requireUser } from "@/lib/auth";
 import { getManageableReport } from "@/lib/data/activity";
+import { getNotificationSummary } from "@/lib/data/notifications";
 
 export const metadata = { title: "Edit report" };
 
@@ -17,10 +18,11 @@ export default async function EditReportPage({ params }) {
   if (!ITEM_TYPES.has(type) || !UUID_PATTERN.test(id)) notFound();
 
   const user = await requireUser();
-  const [{ report, error }, profile, role] = await Promise.all([
+  const [{ report, error }, profile, role, notificationSummary] = await Promise.all([
     getManageableReport(type, id),
     getCurrentProfile(),
     getCurrentUserRole(),
+    getNotificationSummary(),
   ]);
 
   if (!report && !error) notFound();
@@ -39,5 +41,5 @@ export default async function EditReportPage({ params }) {
     </>
   );
 
-  return <AppShell user={getUserDisplay(user, profile)} role={role}>{content}</AppShell>;
+  return <AppShell user={getUserDisplay(user, profile)} role={role} unreadNotificationCount={notificationSummary.unreadCount}>{content}</AppShell>;
 }

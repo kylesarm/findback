@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# FindMatch
 
-## Getting Started
+**Web-Based Lost-and-Found Management System Using Weighted Similarity Matching and Claim Verification**
 
-First, run the development server:
+FindMatch is a university Software Engineering final project for reporting lost and found belongings, reviewing Possible Matches through Weighted Similarity Matching, and completing Claim Verification securely.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Core features
+
+- Email/password authentication with protected user and administrator areas
+- Lost-item and found-item reporting with Supabase Storage images
+- Weighted Similarity Matching using category, brand, color, location, date, and description keywords
+- Privacy-conscious item details and Claim Verification
+- Administrator claim review and secure decision workflow
+- User activity history with report editing and deletion safeguards
+
+## Technology
+
+- Next.js App Router with JavaScript
+- Tailwind CSS
+- Supabase Auth, PostgreSQL, Row Level Security, and Storage
+
+## Local development
+
+Create `.env.local` with the public Supabase project values:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your-project-url
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Install dependencies and start the development server:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+## Database setup
 
-To learn more about Next.js, take a look at the following resources:
+Review and apply the SQL files in `supabase/migrations` in filename order using the Supabase SQL Editor. The application does not require a service-role or secret key in client-side code.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Validation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run lint
+npm run build
+```

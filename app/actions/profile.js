@@ -11,9 +11,71 @@ import {
 } from "@/lib/storage";
 import { createClient } from "@/lib/supabase/server";
 
+function profileValue(formData, name) {
+  return String(formData.get(name) || "").trim();
+}
+
+function optionalProfileValue(formData, name) {
+  return profileValue(formData, name) || null;
+}
+
 async function getOwnedAvatar(supabase, userId) {
   const { data, error } = await supabase.from("profiles").select("avatar_path").eq("id", userId).single();
   return { path: data?.avatar_path || null, error };
+}
+
+export async function updateProfile(previousState, formData) {
+  const claims = await requireUser();
+
+  if (!claims.sub) return { error: "Your authenticated user ID is unavailable. Please log in again." };
+
+  const updates = {
+    first_name: profileValue(formData, "firstName"),
+    last_name: profileValue(formData, "lastName"),
+    display_name: optionalProfileValue(formData, "displayName"),
+    department: optionalProfileValue(formData, "department"),
+    phone: optionalProfileValue(formData, "phone"),
+  };
+
+  if (updates.first_name.length < 1 || updates.first_name.length > 80) {
+    return { error: "First name must contain between 1 and 80 characters." };
+  }
+
+  if (updates.last_name.length < 1 || updates.last_name.length > 80) {
+    return { error: "Last name must contain between 1 and 80 characters." };
+  }
+
+  if (updates.display_name && updates.display_name.length > 120) {
+    return { error: "Display name must contain 120 characters or fewer." };
+  }
+
+  if (updates.department && updates.department.length > 120) {
+    return { error: "Department must contain 120 characters or fewer." };
+  }
+
+  if (updates.phone && updates.phone.length > 40) {
+    return { error: "Phone number must contain 40 characters or fewer." };
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("profiles")
+    .update(updates)
+    .eq("id", claims.sub)
+    .select("id")
+    .maybeSingle();
+
+  if (error || !data) {
+    return {
+      error: error?.code === "42501"
+        ? "You are not permitted to update this profile."
+        : "Your profile could not be updated. Please try again.",
+    };
+  }
+
+  revalidatePath("/", "layout");
+  revalidatePath("/profile");
+  return { success: "Your profile information was updated." };
 }
 
 export async function updateAvatar(previousState, formData) {

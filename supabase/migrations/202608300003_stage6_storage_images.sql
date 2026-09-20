@@ -1,4 +1,4 @@
--- FindBack Stage 6: Supabase Storage for report photos and profile avatars
+-- FindMatch Stage 6: Supabase Storage for report photos and profile avatars
 -- Review this entire migration, then run it once in the Supabase SQL Editor.
 
 begin;

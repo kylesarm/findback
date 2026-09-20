@@ -4,45 +4,13 @@ import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { register } from "@/app/auth/actions";
 import FormField from "@/components/FormField";
+import PasswordField from "@/components/PasswordField";
 
 const field = "field-control";
 
 function RegisterButton({ passwordsMatch }) {
   const { pending } = useFormStatus();
   return <button disabled={pending || !passwordsMatch} className="btn-primary w-full" type="submit">{pending ? "Creating account…" : "Create account"}</button>;
-}
-
-function PasswordField({ id, label, name, value, onChange, visible, onToggle, placeholder, invalid = false, describedBy }) {
-  return (
-    <div>
-      <label className="mb-2 block text-[13px] font-semibold text-slate-700" htmlFor={id}>{label}</label>
-      <div className="relative">
-        <input
-          className={`${field} pr-18`}
-          id={id}
-          name={name}
-          type={visible ? "text" : "password"}
-          autoComplete="new-password"
-          minLength={8}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          aria-invalid={invalid}
-          aria-describedby={describedBy}
-          required
-        />
-        <button
-          className="absolute inset-y-1.5 right-1.5 min-w-14 rounded-lg px-2 text-xs font-bold text-slate-500 transition hover:bg-slate-100 hover:text-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
-          type="button"
-          aria-label={`${visible ? "Hide" : "Show"} ${label.toLowerCase()}`}
-          aria-pressed={visible}
-          onClick={onToggle}
-        >
-          {visible ? "Hide" : "Show"}
-        </button>
-      </div>
-    </div>
-  );
 }
 
 export default function RegisterForm() {
@@ -68,7 +36,7 @@ export default function RegisterForm() {
       <p id="password-requirements" className="-mt-3 text-xs leading-5 text-slate-500">Use at least 8 characters.</p>
       <PasswordField id="register-confirm-password" label="Confirm password" name="confirmPassword" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} visible={showConfirmation} onToggle={() => setShowConfirmation((visible) => !visible)} placeholder="Re-enter your password" invalid={showMismatch} describedBy={showMismatch ? "password-match-error" : undefined} />
       {showMismatch && <p id="password-match-error" className="-mt-3 text-xs font-semibold text-rose-700" role="alert">Passwords do not match.</p>}
-      <label className="flex items-start gap-2 text-xs leading-5 text-slate-500"><input className="mt-0.5 size-4 accent-teal-700" name="terms" type="checkbox" required /> I agree to use FindBack responsibly and follow the campus item claim policy.</label>
+      <label className="flex items-start gap-2 text-xs leading-5 text-slate-500"><input className="mt-0.5 size-4 accent-teal-700" name="terms" type="checkbox" required /> I agree to use FindMatch responsibly and follow the campus item claim policy.</label>
       <RegisterButton passwordsMatch={passwordsMatch} />
     </form>
   );

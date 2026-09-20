@@ -58,7 +58,7 @@ export default function ReportForm({ type }) {
         {!isLost && (
           <FormField label="Finder-only verification details" hint="Private · optional">
             <textarea className={`${inputClass} min-h-28 resize-y`} name="privateDetails" minLength={3} maxLength={3000} placeholder="Record hidden contents, scratches, serial details, or other facts that can help verify the real owner." />
-            <p className="mt-2 text-xs leading-5 text-slate-400">This information is not used for matching and is visible only to you and administrators during claim verification.</p>
+            <p className="mt-2 text-xs leading-5 text-slate-400">This information is not used by Weighted Similarity Matching. It is visible only to you and administrators during Claim Verification.</p>
           </FormField>
         )}
 

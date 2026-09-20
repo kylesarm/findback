@@ -5,7 +5,7 @@ import Brand from "./Brand";
 import Icon from "./Icon";
 import PortalNav from "./PortalNav";
 
-export default function AppShell({ children, user, role }) {
+export default function AppShell({ children, user, role, unreadNotificationCount = 0 }) {
   return (
     <div className="min-h-screen bg-[#f6f8fa]">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-[272px] flex-col border-r border-slate-200/80 bg-white px-4 py-5 lg:flex">
@@ -27,11 +27,15 @@ export default function AppShell({ children, user, role }) {
           <div className="flex h-16 items-center gap-3 px-4 sm:px-7 lg:px-8">
             <div className="lg:hidden"><Brand /></div>
             <div className="hidden lg:block">
-              <p className="text-sm font-semibold text-slate-800">FindBack workspace</p>
-              <p className="text-[11px] text-slate-400">Campus Lost & Found</p>
+              <p className="text-sm font-semibold text-slate-800">FindMatch workspace</p>
+              <p className="text-[11px] text-slate-400">Matching & Claim Verification</p>
             </div>
             <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-              <Link href="/matches" className="grid size-10 place-items-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-teal-700" aria-label="Possible matches"><Icon name="matches" className="size-[19px]" /></Link>
+              <Link href="/matches" className="grid size-10 place-items-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-teal-700" aria-label="Possible Matches"><Icon name="matches" className="size-[19px]" /></Link>
+              <Link href="/notifications" className="relative grid size-10 place-items-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-teal-700" aria-label={`${unreadNotificationCount} unread ${unreadNotificationCount === 1 ? "notification" : "notifications"}`}>
+                <Icon name="bell" className="size-[19px]" />
+                {unreadNotificationCount > 0 && <span className="absolute right-0.5 top-0.5 grid min-h-4 min-w-4 place-items-center rounded-full bg-rose-600 px-1 text-[9px] font-bold leading-none text-white ring-2 ring-white">{unreadNotificationCount > 99 ? "99+" : unreadNotificationCount}</span>}
+              </Link>
               <span className="mx-1 hidden h-7 w-px bg-slate-200 sm:block" />
               <Link href="/profile" className="flex min-w-0 items-center gap-2.5 rounded-xl p-1.5 pr-2 transition hover:bg-slate-100">
                 <Avatar src={user.avatarUrl} initials={user.initials} className="size-9 rounded-xl text-xs" />

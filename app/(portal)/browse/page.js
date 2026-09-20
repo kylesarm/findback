@@ -1,31 +1,119 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import Icon from "@/components/Icon";
 import ItemCard from "@/components/ItemCard";
 import PageHeader from "@/components/PageHeader";
-import { getListings } from "@/lib/data/items";
+import {
+  getListings,
+  LISTING_CATEGORIES,
+  LISTING_PAGE_SIZE,
+  normalizeListingFilters,
+} from "@/lib/data/items";
 
-export const metadata = { title: "Browse items" };
+export const metadata = { title: "Browse and search items" };
 
-export default async function BrowsePage() {
-  const listings = await getListings();
+function browseHref(filters, page) {
+  const params = new URLSearchParams();
+  if (filters.query) params.set("q", filters.query);
+  if (filters.category) params.set("category", filters.category);
+  if (filters.reportType !== "all") params.set("type", filters.reportType);
+  if (filters.location) params.set("location", filters.location);
+  if (filters.dateFrom) params.set("from", filters.dateFrom);
+  if (filters.dateTo) params.set("to", filters.dateTo);
+  if (page > 1) params.set("page", String(page));
+  const query = params.toString();
+  return query ? `/browse?${query}` : "/browse";
+}
+
+function FilterLabel({ label, children }) {
+  return <label className="block"><span className="mb-1.5 block text-[11px] font-bold uppercase tracking-[0.11em] text-slate-500">{label}</span>{children}</label>;
+}
+
+function Pagination({ filters, page, totalPages }) {
+  if (totalPages <= 1) return null;
+
+  return (
+    <nav className="mt-8 flex flex-col items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3 sm:flex-row" aria-label="Browse results pagination">
+      {page > 1 ? <Link className="btn-secondary w-full sm:w-auto" href={browseHref(filters, page - 1)}>← Previous</Link> : <span className="btn-secondary w-full cursor-not-allowed opacity-50 sm:w-auto" aria-disabled="true">← Previous</span>}
+      <p className="text-xs font-semibold text-slate-500">Page <span className="text-slate-900">{page}</span> of <span className="text-slate-900">{totalPages}</span></p>
+      {page < totalPages ? <Link className="btn-secondary w-full sm:w-auto" href={browseHref(filters, page + 1)}>Next →</Link> : <span className="btn-secondary w-full cursor-not-allowed opacity-50 sm:w-auto" aria-disabled="true">Next →</span>}
+    </nav>
+  );
+}
+
+export default async function BrowsePage({ searchParams }) {
+  const filters = normalizeListingFilters(await searchParams);
+  const listings = await getListings(filters);
+  const hasActiveFilters = Boolean(
+    filters.query
+    || filters.category
+    || filters.reportType !== "all"
+    || filters.location
+    || filters.dateFrom
+    || filters.dateTo
+  );
+
+  if (!listings.error && !listings.filterError && listings.totalPages > 0 && listings.page > listings.totalPages) {
+    redirect(browseHref(filters, listings.totalPages));
+  }
+
+  const firstResult = listings.items.length ? (listings.page - 1) * LISTING_PAGE_SIZE + 1 : 0;
+  const lastResult = listings.items.length ? firstResult + listings.items.length - 1 : 0;
 
   return (
     <>
-      <PageHeader eyebrow="Community reports" title="Browse items" description="Search recent lost and found reports shared across campus." />
-      <section className="surface-card mb-6 p-4">
-        <div className="grid gap-3 md:grid-cols-[1fr_180px_180px_auto]">
-          <label className="relative"><span className="sr-only">Search items</span><Icon name="search" className="absolute left-3 top-3 size-4 text-slate-400" /><input className="field-control pl-9" placeholder="Search by item name or description" /></label>
-          <select aria-label="Filter by category" className="field-control"><option>All categories</option><option>Electronics</option><option>Bags</option><option>ID & cards</option></select>
-          <select aria-label="Filter by report type" className="field-control"><option>Lost & found</option><option>Lost items</option><option>Found items</option></select>
-          <button className="btn-primary">Search</button>
+      <PageHeader eyebrow="Community reports" title="Browse and search items" description="Search privacy-safe lost and found listings by item details, location, report type, and date." />
+
+      <form action="/browse" method="get" className="surface-card mb-6 p-4 sm:p-5">
+        <div className="grid gap-4 xl:grid-cols-[minmax(0,1.5fr)_220px_180px]">
+          <FilterLabel label="Keywords">
+            <span className="relative block"><Icon name="search" className="absolute left-3 top-3 size-4 text-slate-400" /><input className="field-control pl-9" name="q" defaultValue={filters.query} maxLength={100} placeholder="Name, category, brand, color, description, or location" /></span>
+          </FilterLabel>
+          <FilterLabel label="Category">
+            <select className="field-control" name="category" defaultValue={filters.category}><option value="">All categories</option>{LISTING_CATEGORIES.map((category) => <option key={category} value={category}>{category}</option>)}</select>
+          </FilterLabel>
+          <FilterLabel label="Report type">
+            <select className="field-control" name="type" defaultValue={filters.reportType}><option value="all">Lost and found</option><option value="lost">Lost items</option><option value="found">Found items</option></select>
+          </FilterLabel>
         </div>
-      </section>
 
-      <div className="mb-4 flex items-center justify-between gap-3"><p className="text-sm text-slate-500"><span className="font-bold text-slate-800">{listings.items.length} {listings.items.length === 1 ? "item" : "items"}</span> currently listed</p><span className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-500">Newest first</span></div>
+        <div className="mt-4 grid gap-4 md:grid-cols-3 xl:grid-cols-[minmax(0,1fr)_190px_190px_auto] xl:items-end">
+          <FilterLabel label="Location">
+            <span className="relative block"><Icon name="location" className="absolute left-3 top-3 size-4 text-slate-400" /><input className="field-control pl-9" name="location" defaultValue={filters.location} maxLength={100} placeholder="Building or campus area" /></span>
+          </FilterLabel>
+          <FilterLabel label="From date"><input className="field-control" name="from" type="date" defaultValue={filters.dateFrom} /></FilterLabel>
+          <FilterLabel label="To date"><input className="field-control" name="to" type="date" defaultValue={filters.dateTo} /></FilterLabel>
+          <div className="flex gap-2 md:col-span-3 xl:col-span-1">
+            {hasActiveFilters && <Link className="btn-secondary flex-1 xl:flex-none" href="/browse">Clear</Link>}
+            <button className="btn-primary flex-1 xl:min-w-28" type="submit">Search</button>
+          </div>
+        </div>
 
-      {listings.items.length > 0 ? (
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{listings.items.map((item) => <ItemCard key={item.id} item={item} />)}</section>
+        {listings.filterError && <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-900" role="alert">{listings.filterError}</p>}
+      </form>
+
+      <div className="mb-4 flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+        <p className="text-sm text-slate-500">
+          {listings.totalCount > 0 ? <><span className="font-bold text-slate-800">Showing {firstResult}–{lastResult}</span> of {listings.totalCount} {listings.totalCount === 1 ? "item" : "items"}</> : <span className="font-bold text-slate-800">0 items</span>}
+          {hasActiveFilters ? " matching your filters" : " currently listed"}
+        </p>
+        <span className="w-fit rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-500">Newest first</span>
+      </div>
+
+      {listings.error ? (
+        <section className="empty-state"><span className="mx-auto grid size-12 place-items-center rounded-xl bg-amber-50 text-amber-700"><Icon name="info" className="size-5" /></span><p className="mt-4 font-semibold text-slate-700">Browse results are unavailable</p><p className="mt-2 text-sm text-slate-500">{listings.error}</p></section>
+      ) : listings.items.length > 0 ? (
+        <>
+          <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{listings.items.map((item) => <ItemCard key={item.id} item={item} />)}</section>
+          <Pagination filters={filters} page={listings.page} totalPages={listings.totalPages} />
+        </>
       ) : (
-        <section className="empty-state"><span className="mx-auto grid size-12 place-items-center rounded-xl bg-slate-100 text-slate-500"><Icon name="browse" className="size-5" /></span><p className="mt-4 font-semibold text-slate-700">{listings.error || "No recently reported items yet."}</p><p className="mt-2 text-sm text-slate-500">Lost and found reports will appear here after they are submitted.</p></section>
+        <section className="empty-state">
+          <span className="mx-auto grid size-12 place-items-center rounded-xl bg-slate-100 text-slate-500"><Icon name="browse" className="size-5" /></span>
+          <p className="mt-4 font-semibold text-slate-700">{hasActiveFilters ? "No items match your search." : "No recently reported items yet."}</p>
+          <p className="mt-2 text-sm text-slate-500">{hasActiveFilters ? "Try broader keywords, remove a filter, or adjust the date range." : "Lost and found reports will appear here after they are submitted."}</p>
+          {hasActiveFilters && <Link className="btn-secondary mt-5" href="/browse">Clear all filters</Link>}
+        </section>
       )}
     </>
   );

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { safeNextPath } from "@/lib/auth-redirect";
 import { createClient } from "@/lib/supabase/server";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -10,8 +11,11 @@ function value(formData, field) {
   return String(formData.get(field) || "").trim();
 }
 
-function safeNextPath(path) {
-  return path.startsWith("/") && !path.startsWith("//") ? path : "/dashboard";
+function getAuthConfirmUrl(nextPath) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const confirmUrl = new URL("/auth/confirm", siteUrl);
+  confirmUrl.searchParams.set("next", nextPath);
+  return confirmUrl.toString();
 }
 
 export async function login(previousState, formData) {
@@ -87,6 +91,63 @@ export async function register(previousState, formData) {
 
   revalidatePath("/", "layout");
   redirect("/dashboard");
+}
+
+export async function requestPasswordReset(previousState, formData) {
+  const email = value(formData, "email").toLowerCase();
+
+  if (!emailPattern.test(email)) {
+    return { error: "Enter a valid email address." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: getAuthConfirmUrl("/reset-password"),
+  });
+
+  if (error) {
+    return {
+      error: error.status === 429
+        ? "Too many reset requests were sent. Wait a few minutes and try again."
+        : "The reset email could not be sent. Please try again shortly.",
+    };
+  }
+
+  // Use the same response for registered and unregistered addresses so this
+  // form cannot be used to discover who has a FindMatch account.
+  return {
+    success: "If an account exists for that email, a secure password-reset link has been sent.",
+  };
+}
+
+export async function updatePassword(previousState, formData) {
+  const password = String(formData.get("password") || "");
+  const confirmPassword = String(formData.get("confirmPassword") || "");
+
+  if (password.length < 8) {
+    return { error: "Your new password must contain at least 8 characters." };
+  }
+
+  if (password !== confirmPassword) {
+    return { error: "Passwords do not match." };
+  }
+
+  const supabase = await createClient();
+  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims();
+
+  if (claimsError || !claimsData?.claims) {
+    return { error: "Your password-reset session is invalid or has expired. Request a new link." };
+  }
+
+  const { error } = await supabase.auth.updateUser({ password });
+
+  if (error) {
+    return { error: error.message || "Your password could not be updated. Request a new reset link and try again." };
+  }
+
+  await supabase.auth.signOut({ scope: "local" });
+  revalidatePath("/", "layout");
+  redirect("/login?message=Your password has been reset. Log in with your new password.");
 }
 
 export async function logout() {

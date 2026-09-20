@@ -28,7 +28,7 @@ export default function AvatarForm({ avatarUrl, initials, hasAvatar }) {
         {updateState?.success && <p className="mt-4 rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm text-teal-700" role="status">{updateState.success}</p>}
         <div className="mt-5"><SaveButton /></div>
       </form>
-      {hasAvatar && <form action={removeAction} className="mt-5 border-t border-slate-100 pt-5"><div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center"><div><p className="text-sm font-semibold text-slate-800">Remove profile photo</p><p className="mt-1 text-xs text-slate-500">FindBack will return to showing your initials.</p></div><RemoveButton /></div>{removeState?.error && <p className="mt-3 text-xs font-medium text-rose-700" role="alert">{removeState.error}</p>}{removeState?.success && <p className="mt-3 text-xs font-medium text-teal-700" role="status">{removeState.success}</p>}</form>}
+      {hasAvatar && <form action={removeAction} className="mt-5 border-t border-slate-100 pt-5"><div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center"><div><p className="text-sm font-semibold text-slate-800">Remove profile photo</p><p className="mt-1 text-xs text-slate-500">FindMatch will return to showing your initials.</p></div><RemoveButton /></div>{removeState?.error && <p className="mt-3 text-xs font-medium text-rose-700" role="alert">{removeState.error}</p>}{removeState?.success && <p className="mt-3 text-xs font-medium text-teal-700" role="status">{removeState.success}</p>}</form>}
     </section>
   );
 }

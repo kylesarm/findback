@@ -22,13 +22,13 @@ export default async function Home() {
                 Lost something? Let&apos;s help it find its way <span className="text-teal-700">back.</span>
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                Report missing belongings, share what you found, and discover possible matches through one safe, organized campus hub.
+                Report missing belongings, share what you found, and review Possible Matches generated through Weighted Similarity Matching.
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Link className="rounded-xl bg-teal-700 px-5 py-3.5 text-center text-sm font-bold text-white shadow-lg shadow-teal-900/10 transition hover:-translate-y-0.5 hover:bg-teal-800" href="/report-lost">I lost an item <span aria-hidden="true">→</span></Link>
                 <Link className="rounded-xl border border-slate-300 bg-white px-5 py-3.5 text-center text-sm font-bold text-slate-800 transition hover:border-teal-300 hover:text-teal-800" href="/report-found">I found an item</Link>
               </div>
-              <p className="mt-5 text-sm text-slate-500">Free to use · Secure claim verification · Built for our campus</p>
+              <p className="mt-5 text-sm text-slate-500">Free to use · Secure Claim Verification · Built for our campus</p>
             </div>
 
             <div className="relative mx-auto w-full max-w-lg">
@@ -40,7 +40,7 @@ export default async function Home() {
                 </div>
                 <div className="rounded-2xl bg-slate-950 p-6 text-white">
                   <div className="mb-10 flex items-start justify-between"><span className="rounded-lg bg-white/10 px-2.5 py-1 text-xs font-semibold">Community powered</span><span className="text-2xl" aria-hidden="true">⌁</span></div>
-                  <p className="text-2xl font-semibold tracking-tight">Report. Match. Verify.</p>
+                  <p className="text-2xl font-semibold tracking-tight">Report. Compare. Verify.</p>
                   <p className="mt-2 text-sm text-slate-300">A clear process for returning campus belongings safely.</p>
                 </div>
                 <div className="mt-4 grid grid-cols-3 gap-3 text-center">
@@ -54,8 +54,8 @@ export default async function Home() {
         </section>
 
         <section id="how-it-works" className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-24">
-          <div className="max-w-2xl"><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">How it works</p><h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Three clear steps to a safer return.</h2><p className="mt-4 leading-7 text-slate-500">FindBack keeps public reporting simple while protecting the private details needed to verify a claim.</p></div>
-          <div className="mt-10 grid gap-4 md:grid-cols-3">{[["01", "Report the item", "Describe what was lost or found, including the location and date."], ["02", "Review possible matches", "Compare reports that share similar details, timing, and campus areas."], ["03", "Verify and return", "Answer private ownership questions before arranging a safe handover."]].map(([number, title, copy]) => <article className="surface-card p-6" key={number}><span className="text-3xl font-bold text-teal-100">{number}</span><h3 className="mt-5 text-lg font-bold">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-500">{copy}</p></article>)}</div>
+          <div className="max-w-2xl"><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">How it works</p><h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Three clear steps to a safer return.</h2><p className="mt-4 leading-7 text-slate-500">FindMatch keeps public reporting simple while protecting the private details needed for Claim Verification.</p></div>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">{[["01", "Report the item", "Describe what was lost or found, including the location and date."], ["02", "Review Possible Matches", "Use the Similarity Score and contributing attributes to compare reports."], ["03", "Claim Verification", "Provide private ownership proof before a safe return is approved."]].map(([number, title, copy]) => <article className="surface-card p-6" key={number}><span className="text-3xl font-bold text-teal-100">{number}</span><h3 className="mt-5 text-lg font-bold">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-500">{copy}</p></article>)}</div>
         </section>
 
         <section className="border-y border-slate-200 bg-white">

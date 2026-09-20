@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { login } from "@/app/auth/actions";
@@ -22,7 +23,7 @@ export default function LoginForm({ next = "/dashboard", message }) {
       {state?.error && <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700" role="alert">{state.error}</p>}
       <FormField label="Email address"><input className={field} id="email" name="email" type="email" autoComplete="email" placeholder="student@university.edu" required /></FormField>
       <FormField label="Password"><input className={field} id="password" name="password" type="password" autoComplete="current-password" placeholder="Enter your password" required /></FormField>
-      <div className="flex items-center justify-between text-sm"><label className="flex items-center gap-2 text-slate-500"><input className="size-4 accent-teal-700" type="checkbox" name="remember" /> Remember me</label><span className="font-semibold text-slate-400">Password recovery coming later</span></div>
+      <div className="text-right text-sm"><Link className="font-semibold text-teal-700 hover:underline" href="/forgot-password">Forgot password?</Link></div>
       <LoginButton />
     </form>
   );

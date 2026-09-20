@@ -45,7 +45,7 @@ export default function ClaimForm({ match = null, foundItem = null, backHref = "
       <div className="border-b border-slate-100 pb-5">
         <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-teal-700">Private ownership proof</p>
         <h2 className="mt-2 text-xl font-bold tracking-tight text-slate-950">Tell us what only the owner would know</h2>
-        <p className="mt-2 text-sm leading-6 text-slate-500">Your answers are saved with the claim for verification. They are not added to the public listing.</p>
+        <p className="mt-2 text-sm leading-6 text-slate-500">Your answers are saved privately for Claim Verification. They do not affect the Similarity Score or appear in the public listing.</p>
       </div>
 
       {state?.error && <p className="mt-5 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700" role="alert">{state.error}</p>}

@@ -5,6 +5,7 @@ import AvatarForm from "@/components/AvatarForm";
 import ClaimStatusBadge from "@/components/ClaimStatusBadge";
 import Icon from "@/components/Icon";
 import PageHeader from "@/components/PageHeader";
+import ProfileInformationForm from "@/components/ProfileInformationForm";
 import { getCurrentProfile, getUserDisplay, requireUser } from "@/lib/auth";
 import { getUserActivity } from "@/lib/data/activity";
 
@@ -13,10 +14,6 @@ export const metadata = { title: "Profile & activity" };
 function formatDate(value) {
   if (!value) return "Not available";
   return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(value));
-}
-
-function AccountValue({ label, value }) {
-  return <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-4"><dt className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-400">{label}</dt><dd className="mt-1.5 break-words text-sm font-semibold text-slate-700">{value || "Not provided"}</dd></div>;
 }
 
 function EmptyActivity({ icon, title, description, href, action }) {
@@ -42,7 +39,7 @@ function ReportSection({ id, title, description, reports, type, error }) {
       ) : reports.length ? (
         <div className="grid gap-4 2xl:grid-cols-2">{reports.map((report) => <ActivityReportCard key={`${report.type}:${report.id}`} report={report} />)}</div>
       ) : type === "lost" ? (
-        <EmptyActivity icon="lost" title="You haven’t reported any lost items yet." description="Create a lost-item report to start tracking it and receiving possible matches." href="/report-lost" action="Report a lost item" />
+        <EmptyActivity icon="lost" title="You haven’t reported any lost items yet." description="Create a lost-item report to start receiving Possible Matches from Weighted Similarity Matching." href="/report-lost" action="Report a lost item" />
       ) : (
         <EmptyActivity icon="found" title="You haven’t reported any found items yet." description="Create a found-item report so its owner can discover and securely claim it." href="/report-found" action="Report a found item" />
       )}
@@ -59,7 +56,7 @@ export default async function ProfilePage() {
 
   return (
     <>
-      <PageHeader eyebrow="Account & activity" title="Profile workspace" description="Manage your account, review everything you have reported, and follow the claims you submitted." />
+      <PageHeader eyebrow="Account & activity" title="Profile workspace" description="Manage your account, review everything you have reported, and follow Claim Verification activity." />
 
       <section className="grid gap-6 xl:grid-cols-[300px_minmax(0,1fr)]">
         <aside className="space-y-4">
@@ -88,10 +85,15 @@ export default async function ProfilePage() {
 
           <AvatarForm avatarUrl={user.avatarUrl} initials={user.initials} hasAvatar={Boolean(user.avatarPath)} />
 
-          <section id="account-information" className="surface-card scroll-mt-24 p-5 sm:p-7">
-            <div className="mb-5 border-b border-slate-100 pb-5"><h2 className="font-bold text-slate-950">Account information</h2><p className="mt-1 text-xs leading-5 text-slate-500">Basic information associated with your authenticated campus account.</p></div>
-            <dl className="grid gap-3 sm:grid-cols-2"><AccountValue label="First name" value={user.firstName} /><AccountValue label="Last name" value={user.lastName} /><AccountValue label="Campus email" value={user.email} /><AccountValue label="Student ID" value={user.campusId} /><AccountValue label="Department" value={profile?.department} /><AccountValue label="Contact number" value={profile?.phone} /></dl>
-          </section>
+          <ProfileInformationForm
+            firstName={profile?.first_name || user.firstName}
+            lastName={profile?.last_name || user.lastName}
+            displayName={profile?.display_name}
+            department={profile?.department}
+            phone={profile?.phone}
+            email={user.email}
+            campusId={user.campusId}
+          />
         </div>
       </section>
 
@@ -108,7 +110,7 @@ export default async function ProfilePage() {
         <ReportSection id="found-reports" title="My Found Reports" description="Items you reported finding on campus." reports={activity.foundReports} type="found" error={activity.reportsError} />
 
         <section id="my-claims" className="scroll-mt-24">
-          <div className="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-end"><div><h2 className="text-lg font-bold text-slate-950">My Claims</h2><p className="mt-1 text-xs leading-5 text-slate-500">Ownership claims submitted from your account.</p></div><Link className="text-xs font-bold text-teal-700" href="/claims">Open full claim center →</Link></div>
+          <div className="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-end"><div><h2 className="text-lg font-bold text-slate-950">My Claims</h2><p className="mt-1 text-xs leading-5 text-slate-500">Claim Verification records submitted from your account.</p></div><Link className="text-xs font-bold text-teal-700" href="/claims">Open Claim Verification center →</Link></div>
           {activity.claimsError ? (
             <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-900">{activity.claimsError}</div>
           ) : activity.claims.length ? (

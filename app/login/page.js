@@ -9,7 +9,7 @@ export default async function LoginPage({ searchParams }) {
   const message = typeof params?.message === "string" ? params.message : "";
 
   return (
-    <AuthShell title="Welcome back" description="Log in to manage your reports, matches, and claims." alternate={{ text: "New to FindBack?", label: "Create an account", href: "/register" }}>
+    <AuthShell title="Welcome back" description="Log in to manage reports, review Possible Matches, and track Claim Verification." alternate={{ text: "New to FindMatch?", label: "Create an account", href: "/register" }}>
       <LoginForm next={next} message={message} />
     </AuthShell>
   );

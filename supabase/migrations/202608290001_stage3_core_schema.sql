@@ -1,4 +1,4 @@
--- FindBack Stage 3: application schema and authorization
+-- FindMatch Stage 3: application schema and authorization
 -- Run this entire file once in the Supabase SQL Editor.
 
 begin;

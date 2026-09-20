@@ -7,6 +7,7 @@ import PublicFooter from "@/components/PublicFooter";
 import PublicHeader from "@/components/PublicHeader";
 import { getCurrentProfile, getCurrentUser, getCurrentUserRole, getUserDisplay } from "@/lib/auth";
 import { getItemDetail } from "@/lib/data/item-details";
+import { getNotificationSummary } from "@/lib/data/notifications";
 
 const ITEM_TYPES = new Set(["lost", "found"]);
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -97,7 +98,7 @@ function ItemDetails({ item, isLoggedIn }) {
   return (
     <>
       <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-slate-500">
-        <Link className="font-semibold transition hover:text-teal-700" href={isLoggedIn ? "/browse" : "/"}>FindBack</Link>
+        <Link className="font-semibold transition hover:text-teal-700" href={isLoggedIn ? "/browse" : "/"}>FindMatch</Link>
         <span aria-hidden="true">/</span>
         <Link className="font-semibold transition hover:text-teal-700" href="/browse">Browse items</Link>
         <span aria-hidden="true">/</span>
@@ -149,7 +150,7 @@ function ItemDetails({ item, isLoggedIn }) {
           ) : (
             <div className="rounded-2xl border border-teal-200 bg-teal-50 p-5">
               <h2 className="font-bold text-teal-950">Found something similar?</h2>
-              <p className="mt-2 text-sm leading-6 text-teal-800">Create a found-item report so FindBack can compare it with active lost reports.</p>
+              <p className="mt-2 text-sm leading-6 text-teal-800">Create a found-item report so FindMatch can evaluate it through Weighted Similarity Matching.</p>
               <Link className="btn-primary mt-5 w-full" href="/report-found">Report a found item</Link>
             </div>
           )}
@@ -214,6 +215,6 @@ export default async function ItemDetailsPage({ params }) {
     );
   }
 
-  const [profile, role] = await Promise.all([getCurrentProfile(), getCurrentUserRole()]);
-  return <AppShell user={getUserDisplay(user, profile)} role={role}>{content}</AppShell>;
+  const [profile, role, notificationSummary] = await Promise.all([getCurrentProfile(), getCurrentUserRole(), getNotificationSummary()]);
+  return <AppShell user={getUserDisplay(user, profile)} role={role} unreadNotificationCount={notificationSummary.unreadCount}>{content}</AppShell>;
 }

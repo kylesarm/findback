@@ -70,7 +70,7 @@ export default function ReportEditForm({ report }) {
 
       <aside className="space-y-4 xl:sticky xl:top-24 xl:self-start">
         <div className="surface-card p-5"><p className="font-bold text-slate-900">System fields stay protected</p><p className="mt-2 text-xs leading-5 text-slate-500">The reporter, report status, created date, claim decisions, and other workflow-controlled values cannot be changed here.</p></div>
-        <div className="surface-card p-5"><p className="text-sm font-semibold text-slate-800">Ready to save?</p><p className="mt-1 text-xs leading-5 text-slate-500">A replacement photo uploads first. FindBack updates the report before removing the previous owned image.</p><div className="mt-5 grid gap-2"><SaveButton /><Link className="btn-secondary" href={detailsHref}>Cancel</Link></div></div>
+        <div className="surface-card p-5"><p className="text-sm font-semibold text-slate-800">Ready to save?</p><p className="mt-1 text-xs leading-5 text-slate-500">A replacement photo uploads first. FindMatch updates the report before removing the previous owned image.</p><div className="mt-5 grid gap-2"><SaveButton /><Link className="btn-secondary" href={detailsHref}>Cancel</Link></div></div>
       </aside>
     </form>
   );

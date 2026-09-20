@@ -28,13 +28,13 @@ export default async function DashboardPage() {
       icon: "lost",
     },
     {
-      label: "Possible matches",
+      label: "Possible Matches",
       value: String(matchData.matches.length),
       note: matchData.error
-        ? "Matching is temporarily unavailable"
+        ? "Weighted Similarity Matching is temporarily unavailable"
         : matchedLostItems > 0
           ? `Across ${matchedLostItems} lost ${matchedLostItems === 1 ? "report" : "reports"}`
-          : `No results above ${matchData.minimumScore}% yet`,
+          : `No Similarity Scores at or above ${matchData.minimumScore}% yet`,
       icon: "matches",
     },
     {
@@ -54,7 +54,7 @@ export default async function DashboardPage() {
       <PageHeader
         eyebrow="Your overview"
         title={`Good morning, ${user.firstName}`}
-        description="Here’s what is happening with your reports and possible matches."
+        description="Here’s what is happening with your reports, Similarity Scores, and Possible Matches."
         action={(
           <div className="flex gap-2">
             <Link className="btn-secondary" href="/report-found"><Icon name="found" />Report found</Link>
@@ -109,19 +109,19 @@ export default async function DashboardPage() {
           <span className="grid size-10 place-items-center rounded-xl bg-teal-500/15 text-teal-300 ring-1 ring-inset ring-teal-400/20"><Icon name="matches" className="size-5" /></span>
           {bestMatch ? (
             <>
-              <p className="mt-8 text-xs font-bold uppercase tracking-widest text-teal-300">Best possible match · {bestMatch.score}%</p>
+              <p className="mt-8 text-xs font-bold uppercase tracking-widest text-teal-300">Top Possible Match · Similarity Score {bestMatch.score}%</p>
               <h2 className="mt-2 text-2xl font-bold tracking-tight">Your lost {bestMatch.lostItem.itemName} may match {bestMatch.foundItem.itemName}.</h2>
               <p className="mt-3 text-sm leading-6 text-slate-400">{bestMatch.reasons.slice(0, 2).join(" · ")}</p>
-              <Link href="/matches" className="mt-6 block rounded-xl bg-white px-4 py-3 text-center text-sm font-bold text-slate-950">Review possible match</Link>
+              <Link href="/matches" className="mt-6 block rounded-xl bg-white px-4 py-3 text-center text-sm font-bold text-slate-950">Review Possible Match</Link>
             </>
           ) : (
             <>
-              <p className="mt-8 text-xs font-bold uppercase tracking-widest text-teal-300">Possible matches</p>
-              <h2 className="mt-2 text-2xl font-bold tracking-tight">No reasonable matches yet.</h2>
+              <p className="mt-8 text-xs font-bold uppercase tracking-widest text-teal-300">Weighted Similarity Matching</p>
+              <h2 className="mt-2 text-2xl font-bold tracking-tight">No Possible Matches yet.</h2>
               <p className="mt-3 text-sm leading-6 text-slate-400">
-                {matchData.error || `FindBack will show results here when a found item reaches the ${matchData.minimumScore}% minimum score.`}
+                {matchData.error || `FindMatch will show a Possible Match when its Similarity Score reaches the ${matchData.minimumScore}% minimum.`}
               </p>
-              <Link href="/matches" className="mt-6 block rounded-xl bg-white px-4 py-3 text-center text-sm font-bold text-slate-950">Open possible matches</Link>
+              <Link href="/matches" className="mt-6 block rounded-xl bg-white px-4 py-3 text-center text-sm font-bold text-slate-950">Open Possible Matches</Link>
             </>
           )}
         </div>

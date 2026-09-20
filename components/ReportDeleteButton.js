@@ -9,7 +9,7 @@ function ConfirmDeleteButton() {
   return <button className="btn-danger" disabled={pending} type="submit">{pending ? "Deleting…" : "Delete report"}</button>;
 }
 
-export default function ReportDeleteButton({ report }) {
+export default function ReportDeleteButton({ report, adminModeration = false }) {
   const [state, formAction] = useActionState(deleteReport, null);
   const dialogRef = useRef(null);
 
@@ -29,7 +29,7 @@ export default function ReportDeleteButton({ report }) {
           <input name="reportId" type="hidden" value={report.id} />
           <span className="grid size-11 place-items-center rounded-xl bg-rose-50 text-lg font-bold text-rose-700 ring-1 ring-inset ring-rose-100">!</span>
           <h2 className="mt-5 text-xl font-bold tracking-tight text-slate-950">Delete this {report.type} report?</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600"><span className="font-semibold text-slate-800">{report.itemName}</span> will be removed permanently. Its owned Storage image will also be deleted.</p>
+          <p className="mt-2 text-sm leading-6 text-slate-600"><span className="font-semibold text-slate-800">{report.itemName}</span> will be removed permanently. {adminModeration ? "The reporter-owned Storage image remains protected and is not deleted by another account." : "Its owned Storage image will also be deleted."}</p>
           {report.type === "found" && <p className="mt-3 rounded-xl bg-amber-50 p-3 text-xs leading-5 text-amber-900">Deletion is blocked if any pending, reviewed, cancelled, rejected, or approved claim is linked to this item. This protects claim history.</p>}
           {state?.error && <p className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs leading-5 text-rose-800" role="alert">{state.error}</p>}
           <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

@@ -1,4 +1,4 @@
--- FindBack Stage 8: user activity and ownership-safe report management
+-- FindMatch Stage 8: user activity and ownership-safe report management
 -- Review this entire migration, then run it once in the Supabase SQL Editor.
 
 begin;

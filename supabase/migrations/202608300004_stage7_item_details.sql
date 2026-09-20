@@ -1,4 +1,4 @@
--- FindBack Stage 7: privacy-safe item details and direct claim eligibility
+-- FindMatch Stage 7: privacy-safe item details and direct claim eligibility
 -- Review this entire migration, then run it once in the Supabase SQL Editor.
 
 begin;

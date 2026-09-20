@@ -1,5 +1,6 @@
 const paths = {
   admin: <><path d="M12 3l7 3v5c0 4.4-2.9 8.4-7 10-4.1-1.6-7-5.6-7-10V6l7-3Z" /><path d="m9.5 12 1.7 1.7 3.7-4" /></>,
+  bell: <><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" /><path d="M10 21h4" /></>,
   browse: <><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></>,
   calendar: <><path d="M6 2v4M18 2v4M3 9h18" /><rect x="3" y="4" width="18" height="17" rx="2" /></>,
   check: <path d="m5 12 4 4L19 6" />,

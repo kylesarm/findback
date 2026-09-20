@@ -67,7 +67,7 @@ export async function submitClaim(previousState, formData) {
     ));
 
     if (!selectedMatch) {
-      return { error: "This item is no longer an available possible match." };
+      return { error: "This item is no longer an eligible Possible Match." };
     }
   }
 
