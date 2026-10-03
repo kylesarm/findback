@@ -1,83 +1,183 @@
 import Link from "next/link";
+import Icon from "@/components/Icon";
+import BrandVisual from "@/components/BrandVisual";
 import ItemCard from "@/components/ItemCard";
+import EmptyState from "@/components/EmptyState";
 import PublicFooter from "@/components/PublicFooter";
 import PublicHeader from "@/components/PublicHeader";
 import { getRecentListings } from "@/lib/data/items";
 
+const steps = [
+  [
+    "01",
+    "Report what happened.",
+    "Share the item, the place, and the details that matter. A clear report is where every return begins.",
+    "lost",
+  ],
+  [
+    "02",
+    "Find the connection.",
+    "Explore possible matches to see which found items share details with your report.",
+    "matches",
+  ],
+  [
+    "03",
+    "Verify. Then reunite.",
+    "Submit private ownership proof for administrator review before an item is returned.",
+    "admin",
+  ],
+];
+
 export default async function Home() {
   const recentListings = await getRecentListings();
-
   return (
-    <div className="min-h-screen bg-[#f8faf9] text-slate-950">
+    <div className="min-h-screen bg-white text-slate-950">
       <PublicHeader />
-      <main>
-        <section className="relative overflow-hidden border-b border-slate-200">
-          <div className="hero-grid absolute inset-0 opacity-50" />
-          <div className="relative mx-auto grid max-w-7xl gap-12 px-5 py-18 sm:px-8 sm:py-24 lg:grid-cols-[1.08fr_.92fr] lg:items-center lg:py-28">
-            <div>
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-teal-800">
-                <span className="size-1.5 rounded-full bg-teal-600" /> Campus community powered
-              </div>
-              <h1 className="max-w-3xl text-5xl font-bold leading-[1.04] tracking-[-0.045em] sm:text-6xl lg:text-7xl">
-                Lost something? Let&apos;s help it find its way <span className="text-teal-700">back.</span>
-              </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                Report missing belongings, share what you found, and review Possible Matches generated through Weighted Similarity Matching.
+      <main id="main-content">
+        <section className="brand-hero relative overflow-hidden border-b border-brand-100">
+          <div className="hero-dots pointer-events-none absolute inset-0" aria-hidden="true" />
+          <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[1.15fr_.85fr] lg:gap-16 lg:py-20">
+            <div className="min-w-0">
+              <p className="eyebrow mb-5 flex items-center gap-2">
+                <span className="size-2 rounded-full bg-teal-500" />A little
+                less lost. A lot more connected.
               </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <Link className="rounded-xl bg-teal-700 px-5 py-3.5 text-center text-sm font-bold text-white shadow-lg shadow-teal-900/10 transition hover:-translate-y-0.5 hover:bg-teal-800" href="/report-lost">I lost an item <span aria-hidden="true">→</span></Link>
-                <Link className="rounded-xl border border-slate-300 bg-white px-5 py-3.5 text-center text-sm font-bold text-slate-800 transition hover:border-teal-300 hover:text-teal-800" href="/report-found">I found an item</Link>
+              <h1 className="max-w-2xl text-[2.75rem] font-semibold leading-[1.08] tracking-[-.055em] sm:text-6xl lg:text-[4.5rem]">
+                Find what you lost.
+                <br />
+                <span className="text-brand-700">
+                  Return what
+                  <br className="hidden lg:block" /> you found.
+                </span>
+              </h1>
+              <p className="mt-6 max-w-lg text-base leading-7 text-slate-600">
+                Your campus, looking out for you. Report lost belongings,
+                discover Possible Matches, and return items through secure Claim
+                Verification.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link className="btn-primary min-h-12 px-5" href="/report-lost">
+                  <Icon name="search" />I lost something
+                  <Icon name="arrowRight" />
+                </Link>
+                <Link
+                  className="btn-found min-h-12 px-5"
+                  href="/report-found"
+                >
+                  <Icon name="found" />I found something
+                </Link>
               </div>
-              <p className="mt-5 text-sm text-slate-500">Free to use · Secure Claim Verification · Built for our campus</p>
+              <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs text-slate-500">
+                <span className="flex items-center gap-1.5">
+                  <Icon name="admin" className="size-3.5 text-brand-600" />
+                  Private ownership proof
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Icon name="profile" className="size-3.5 text-brand-600" />
+                  Built for campus life
+                </span>
+              </div>
             </div>
-
-            <div className="relative mx-auto w-full max-w-lg">
-              <div className="absolute -inset-4 rotate-2 rounded-[2rem] bg-teal-100" />
-              <div className="relative rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-2xl shadow-slate-900/10 sm:p-7">
-                <div className="mb-6 flex items-center justify-between">
-                  <div><p className="text-xs font-bold uppercase tracking-wider text-teal-700">A safer return</p><p className="mt-1 text-xl font-bold">Simple reports. Clear next steps.</p></div>
-                  <span className="grid size-11 place-items-center rounded-full bg-amber-100 text-xl" aria-hidden="true">✓</span>
-                </div>
-                <div className="rounded-2xl bg-slate-950 p-6 text-white">
-                  <div className="mb-10 flex items-start justify-between"><span className="rounded-lg bg-white/10 px-2.5 py-1 text-xs font-semibold">Community powered</span><span className="text-2xl" aria-hidden="true">⌁</span></div>
-                  <p className="text-2xl font-semibold tracking-tight">Report. Compare. Verify.</p>
-                  <p className="mt-2 text-sm text-slate-300">A clear process for returning campus belongings safely.</p>
-                </div>
-                <div className="mt-4 grid grid-cols-3 gap-3 text-center">
-                  {[["01", "Public reports"], ["02", "Private proof"], ["03", "Admin review"]].map(([value, label]) => (
-                    <div className="rounded-xl bg-slate-50 px-2 py-3" key={label}><p className="font-bold text-slate-950">{value}</p><p className="mt-0.5 text-[10px] leading-4 text-slate-500">{label}</p></div>
-                  ))}
-                </div>
-              </div>
+            <BrandVisual />
+          </div>
+        </section>
+        <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow mb-2">Around campus</p>
+              <h2 className="!text-2xl !font-semibold tracking-tight sm:!text-3xl">
+                Recently reported
+              </h2>
+              <p className="mt-2 text-sm text-slate-500">
+                Something familiar might be waiting here.
+              </p>
+            </div>
+            <Link className="text-link" href="/browse">
+              Explore all items
+              <Icon name="arrowRight" />
+            </Link>
+          </div>
+          {recentListings.items.length ? (
+            <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {recentListings.items.map((item) => (
+                <ItemCard key={item.id} item={item} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState
+              icon={recentListings.error ? "info" : "browse"}
+              error={Boolean(recentListings.error)}
+              title={
+                recentListings.error
+                  ? "Recent reports are unavailable"
+                  : "No recently reported items yet"
+              }
+              description={
+                recentListings.error ||
+                "Be the first to help something find its way back."
+              }
+              href="/report-found"
+              action="Report an item"
+            />
+          )}
+        </section>
+        <section
+          id="how-it-works"
+          className="border-y border-slate-200 bg-brand-50"
+        >
+          <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20">
+            <div className="max-w-xl">
+              <p className="eyebrow">Simple by design</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-.04em] sm:text-4xl">
+                A better way back.
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-slate-500">
+                From the first report to the final verification, you always know
+                what comes next.
+              </p>
+            </div>
+            <div className="mt-10 grid gap-8 md:grid-cols-3">
+              {steps.map(([n, title, copy, icon]) => (
+                <article key={n} className="surface-card p-7">
+                  <div className="flex items-center justify-between">
+                    <Icon name={icon} className="size-6 text-teal-700" />
+                    <span className="text-xs font-medium text-slate-500">
+                      {n} / 03
+                    </span>
+                  </div>
+                  <h3 className="mt-6 text-lg font-semibold tracking-tight">
+                    {title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-500">
+                    {copy}
+                  </p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
-
-        <section id="how-it-works" className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-24">
-          <div className="max-w-2xl"><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">How it works</p><h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Three clear steps to a safer return.</h2><p className="mt-4 leading-7 text-slate-500">FindMatch keeps public reporting simple while protecting the private details needed for Claim Verification.</p></div>
-          <div className="mt-10 grid gap-4 md:grid-cols-3">{[["01", "Report the item", "Describe what was lost or found, including the location and date."], ["02", "Review Possible Matches", "Use the Similarity Score and contributing attributes to compare reports."], ["03", "Claim Verification", "Provide private ownership proof before a safe return is approved."]].map(([number, title, copy]) => <article className="surface-card p-6" key={number}><span className="text-3xl font-bold text-teal-100">{number}</span><h3 className="mt-5 text-lg font-bold">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-500">{copy}</p></article>)}</div>
-        </section>
-
-        <section className="border-y border-slate-200 bg-white">
-          <div className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-24">
-            <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-              <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">Community board</p><h2 className="mt-3 text-3xl font-bold tracking-tight">Recently reported items</h2></div>
-              <Link className="text-sm font-bold text-teal-700" href="/browse">Browse all items →</Link>
+        <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20">
+          <div className="flex flex-col items-start justify-between gap-8 rounded-[2rem] brand-panel p-7 text-white sm:p-12 lg:flex-row lg:items-center">
+            <div>
+              <p className="text-xs font-semibold text-teal-300">
+                Small actions. Meaningful returns.
+              </p>
+              <h2 className="mt-3 text-3xl font-medium tracking-[-.04em] sm:text-4xl">
+                Be someone’s good news.
+              </h2>
+              <p className="mt-3 text-sm text-slate-400">
+                Your next report could make someone’s day.
+              </p>
             </div>
-            {recentListings.items.length > 0 ? (
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {recentListings.items.map((item) => <ItemCard key={item.id} item={item} />)}
-              </div>
-            ) : (
-              <div className="empty-state bg-slate-50 py-12">
-                <p className="font-semibold text-slate-700">{recentListings.error || "No recently reported items yet."}</p>
-                <p className="mt-2 text-sm text-slate-500">New lost and found reports will appear here.</p>
-              </div>
-            )}
+            <Link
+              href="/register"
+              className="btn-secondary min-h-12 shrink-0 border-transparent px-6"
+            >
+              Join Findmatch
+              <Icon name="arrowRight" />
+            </Link>
           </div>
         </section>
-
-        <section className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-24"><div className="relative overflow-hidden rounded-[2rem] bg-slate-950 px-6 py-12 text-center text-white sm:px-12"><div className="hero-grid absolute inset-0 opacity-20" /><div className="relative"><p className="text-xs font-bold uppercase tracking-[0.18em] text-teal-300">Start today</p><h2 className="mx-auto mt-3 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">One report could be the reason an item gets home.</h2><p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-400">Join the campus community making lost-and-found simpler, safer, and more transparent.</p><Link className="mt-7 inline-block rounded-xl bg-teal-500 px-5 py-3 text-sm font-bold text-slate-950" href="/register">Create your account</Link></div></div></section>
       </main>
       <PublicFooter />
     </div>

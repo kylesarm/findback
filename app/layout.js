@@ -2,17 +2,17 @@ import "./globals.css";
 
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
-  title: { default: "FindMatch | Weighted Similarity Matching & Claim Verification", template: "%s | FindMatch" },
-  description: "A web-based lost-and-found management system using Weighted Similarity Matching and Claim Verification.",
+  title: { default: "Findmatch | Your campus, connected", template: "%s | Findmatch" },
+  description: "Find what you lost. Return what you found. Your campus lost-and-found hub with possible matches and secure ownership verification.",
   openGraph: {
-    title: "FindMatch | Weighted Similarity Matching & Claim Verification",
-    description: "A safer campus hub using Weighted Similarity Matching and Claim Verification.",
-    images: [{ url: "/og.png", width: 1671, height: 941, alt: "FindMatch — Weighted Similarity Matching and Claim Verification" }],
+    title: "Findmatch | Your campus, connected",
+    description: "A little less lost. A lot more connected. Find your way back with Findmatch.",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Findmatch — Find what you lost. Return what you found." }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "FindMatch | Weighted Similarity Matching & Claim Verification",
-    description: "A safer campus hub using Weighted Similarity Matching and Claim Verification.",
+    title: "Findmatch | Your campus, connected",
+    description: "Find what you lost. Return what you found. Your campus, connected.",
     images: ["/og.png"],
   },
 };

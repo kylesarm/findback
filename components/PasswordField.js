@@ -13,7 +13,12 @@ export default function PasswordField({
 }) {
   return (
     <div>
-      <label className="mb-2 block text-[13px] font-semibold text-slate-700" htmlFor={id}>{label}</label>
+      <label
+        className="mb-2 block text-[13px] font-semibold text-slate-700"
+        htmlFor={id}
+      >
+        {label}
+      </label>
       <div className="relative">
         <input
           className="field-control pr-18"
@@ -30,7 +35,7 @@ export default function PasswordField({
           required
         />
         <button
-          className="absolute inset-y-1.5 right-1.5 min-w-14 rounded-lg px-2 text-xs font-bold text-slate-500 transition hover:bg-slate-100 hover:text-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+          className="absolute inset-y-px right-px min-w-16 rounded-lg px-2 text-xs font-bold text-slate-500 transition hover:bg-slate-100 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600"
           type="button"
           aria-label={`${visible ? "Hide" : "Show"} ${label.toLowerCase()}`}
           aria-pressed={visible}

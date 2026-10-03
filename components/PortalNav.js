@@ -5,32 +5,67 @@ import { usePathname } from "next/navigation";
 import { getPortalNavigation } from "@/lib/portal-navigation";
 import Icon from "./Icon";
 
-export default function PortalNav({ role, mobile = false }) {
+export default function PortalNav({ role, mobile = false, onNavigate }) {
   const pathname = usePathname();
   const items = getPortalNavigation(role);
-  const mainItems = items.filter(([href]) => !["/profile", "/admin"].includes(href));
-  const accountItems = items.filter(([href]) => ["/profile", "/admin"].includes(href));
-
-  const renderLinks = (links) => links.map(([href, label, icon]) => {
-    const active = pathname === href || (href !== "/dashboard" && pathname.startsWith(`${href}/`));
-
-    return (
-      <Link key={href} href={href} aria-current={active ? "page" : undefined} className={`group flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-medium transition-colors ${active ? "bg-teal-50 text-teal-900 ring-1 ring-inset ring-teal-100" : "text-slate-600 hover:bg-slate-50 hover:text-slate-950"}`}>
-        <span className={`grid size-8 shrink-0 place-items-center rounded-lg transition-colors ${active ? "bg-teal-700 text-white shadow-sm" : "text-slate-400 group-hover:bg-white group-hover:text-slate-700 group-hover:shadow-sm"}`}>
-          <Icon name={icon} className="size-[18px]" />
-        </span>
-        <span className="truncate">{label}</span>
-      </Link>
-    );
-  });
-
-  if (mobile) return <div className="grid gap-1 sm:grid-cols-2">{renderLinks(items)}</div>;
-
+  const groups = [
+    [
+      "Workspace",
+      items.filter(([href]) =>
+        [
+          "/dashboard",
+          "/browse",
+          "/matches",
+          "/claims",
+          "/notifications",
+        ].includes(href),
+      ),
+    ],
+    [
+      "Your reports",
+      items.filter(([href]) =>
+        ["/report-lost", "/report-found"].includes(href),
+      ),
+    ],
+    [
+      "Account",
+      items.filter(([href]) => ["/profile", "/admin"].includes(href)),
+    ],
+  ];
   return (
-    <>
-      <p className="px-3 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Workspace</p>
-      <div className="mt-2 space-y-1">{renderLinks(mainItems)}</div>
-      {accountItems.length > 0 && <><p className="mt-7 px-3 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Account</p><div className="mt-2 space-y-1">{renderLinks(accountItems)}</div></>}
-    </>
+    <div className={mobile ? "space-y-5" : "space-y-6"}>
+      {groups.map(([title, links]) => (
+        <div key={title}>
+          <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[.15em] text-slate-400">
+            {title}
+          </p>
+          <div className="space-y-1">
+            {links.map(([href, label, icon]) => {
+              const active =
+                pathname === href ||
+                (href !== "/dashboard" && pathname.startsWith(`${href}/`));
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={onNavigate}
+                  aria-current={active ? "page" : undefined}
+                  className={`group flex min-h-11 items-center gap-3 rounded-xl px-3 text-[13px] font-medium transition ${active ? "bg-brand-500/25 text-white ring-1 ring-inset ring-brand-300/25" : "text-slate-300 hover:bg-white/5 hover:text-white"}`}
+                >
+                  <Icon
+                    name={icon}
+                    className={`size-[18px] shrink-0 ${active ? "text-teal-300" : "text-slate-400 group-hover:text-slate-300"}`}
+                  />
+                  <span className="min-w-0 flex-1 truncate">{label}</span>
+                  {active && (
+                    <span className="size-1.5 rounded-full bg-teal-300" />
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }

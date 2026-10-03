@@ -114,7 +114,7 @@ export async function requestPasswordReset(previousState, formData) {
   }
 
   // Use the same response for registered and unregistered addresses so this
-  // form cannot be used to discover who has a FindMatch account.
+  // form cannot be used to discover who has a Findmatch account.
   return {
     success: "If an account exists for that email, a secure password-reset link has been sent.",
   };

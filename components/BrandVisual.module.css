@@ -1,0 +1,116 @@
+.visual {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  max-width: 510px;
+  min-height: 460px;
+  margin-inline: auto;
+  background: radial-gradient(ellipse at 50% 52%, #ccf6ee 0%, #e0efff 35%, transparent 68%);
+}
+.orbit, .innerOrbit {
+  position: absolute;
+  z-index: -1;
+  top: 52%;
+  left: 50%;
+  width: 370px;
+  height: 370px;
+  max-width: 92%;
+  aspect-ratio: 1;
+  border: 1px solid #b9d7ef;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.innerOrbit {
+  width: 280px;
+  height: 280px;
+  border-style: dashed;
+  border-color: #9bdcd6;
+}
+.logoMark {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  display: grid;
+  width: 160px;
+  aspect-ratio: 681 / 792;
+  place-items: center;
+  transform: translate(-50%, -50%);
+}
+.logoMark img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 14px 18px #0048af18);
+}
+.card {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #dce9f2;
+  border-radius: 18px;
+  padding: 15px 17px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px #082d5509;
+}
+.report { top: 2%; left: 0; transform: rotate(-4deg); }
+.match { top: 18%; right: 0; transform: rotate(4deg); }
+.verify { bottom: 8%; left: 1%; transform: rotate(-3deg); }
+.blueIcon, .tealIcon {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 13px;
+  background: #e0efff;
+  color: #0048af;
+}
+.tealIcon { background: #ccf6ee; color: #007570; }
+.cardTitle { color: #132d4e; font-size: 12px; font-weight: 700; }
+.cardCopy { margin-top: 4px; color: #60758b; font-size: 10px; }
+.spark {
+  position: absolute;
+  bottom: 24%;
+  right: 12%;
+  width: 18px;
+  height: 18px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background: #01b6af;
+  box-shadow: 0 0 0 8px #01b6af13;
+}
+.caption {
+  position: absolute;
+  right: 0;
+  bottom: 1%;
+  left: 0;
+  color: #60758b;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+}
+.dark { background: radial-gradient(ellipse at 50% 52%, #01b6af25, #006ef418 45%, transparent 70%); }
+.dark .orbit { border-color: #ffffff20; }
+.dark .innerOrbit { border-color: #67dcd145; }
+.dark .caption { color: #a7c2db; }
+.dark .card {
+  border-color: #67dcd133;
+  background: #0d3c65eb;
+  box-shadow: 0 10px 30px #001d3520;
+}
+.dark .cardTitle { color: #f0f7ff; }
+.dark .cardCopy { color: #a7c2db; }
+.dark .logoMark img { filter: drop-shadow(0 12px 24px #01b6af25); }
+@media (max-width: 639px) {
+  .visual { min-height: 400px; max-width: 380px; }
+  .orbit { width: 320px; height: 320px; }
+  .innerOrbit { width: 240px; height: 240px; }
+  .logoMark { top: 57%; width: 145px; }
+  .card { gap: 9px; padding: 12px; border-radius: 15px; }
+  .report { top: 4%; }
+  .match { top: 20%; }
+  .verify { bottom: 6%; }
+  .cardTitle { font-size: 11px; }
+  .cardCopy { font-size: 9px; }
+  .blueIcon, .tealIcon { width: 32px; height: 32px; border-radius: 10px; }
+}
